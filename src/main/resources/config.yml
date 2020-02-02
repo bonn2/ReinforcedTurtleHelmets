@@ -1,0 +1,12 @@
+#
+#   Reinforced Turtle Helmets
+#           by bonn2
+#
+
+lore: "§bDiamond Reinforced"
+
+enableMetrics: true
+
+ReloadingConfig: "§eAttempting to reload the config!"
+ReloadedConfigSuccess: "§aConfig has been sucessfully reloaded!"
+ReloadedConfigFail: "§cConfig failed to be reloaded!"
