@@ -76,18 +76,20 @@ public class createHelmet implements Listener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2 && event.getClickedInventory().getItem(2).getItemMeta().hasLore()) {
-            net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(event.getClickedInventory().getItem(2));
-            if (nmsItemStack.hasTag() && nmsItemStack.getTag().hasKey("Reinforced")) {
-                if (nmsItemStack.getTag().getBoolean("Reinforced")) {
-                    ItemStack item = event.getClickedInventory().getItem(2);
-                    Player player = (Player) event.getWhoClicked();
-                    if (event.isLeftClick()) {
-                        player.setItemOnCursor(item);
-                        clearAnvil((AnvilInventory) event.getClickedInventory());
-                    } else if (event.isShiftClick() && player.getInventory().firstEmpty() != -1) {
-                        player.getInventory().addItem(item);
-                        clearAnvil((AnvilInventory) event.getClickedInventory());
+        if (event.getClickedInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2 && event.getClickedInventory().getItem(2) != null) {
+            if (event.getClickedInventory().getItem(2).getItemMeta().hasLore()) {
+                net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(event.getClickedInventory().getItem(2));
+                if (nmsItemStack.hasTag() && nmsItemStack.getTag().hasKey("Reinforced")) {
+                    if (nmsItemStack.getTag().getBoolean("Reinforced")) {
+                        ItemStack item = event.getClickedInventory().getItem(2);
+                        Player player = (Player) event.getWhoClicked();
+                        if (event.isLeftClick()) {
+                            player.setItemOnCursor(item);
+                            clearAnvil((AnvilInventory) event.getClickedInventory());
+                        } else if (event.isShiftClick() && player.getInventory().firstEmpty() != -1) {
+                            player.getInventory().addItem(item);
+                            clearAnvil((AnvilInventory) event.getClickedInventory());
+                        }
                     }
                 }
             }
