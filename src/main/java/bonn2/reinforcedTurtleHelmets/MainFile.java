@@ -1,9 +1,7 @@
 package bonn2.reinforcedTurtleHelmets;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MainFile extends JavaPlugin {
@@ -28,12 +26,13 @@ public class MainFile extends JavaPlugin {
 
         getLogger().info("Initializing Listeners");
         getServer().getPluginManager().registerEvents(new createHelmet(), this);
+        getServer().getPluginManager().registerEvents(new ArmorEquipListener(), this);
         this.getCommand("rth").setExecutor(new commandListener());
     }
 
     @Override
     public void onDisable() {
-        
+
     }
 
 }

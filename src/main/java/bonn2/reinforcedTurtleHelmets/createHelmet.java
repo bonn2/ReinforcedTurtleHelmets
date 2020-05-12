@@ -27,11 +27,15 @@ public class createHelmet implements Listener {
     MainFile mainfile = MainFile.plugin;
 
     @EventHandler
-    public void anvilCraft(PrepareAnvilEvent event) throws InterruptedException {
+    public void anvilCraft(PrepareAnvilEvent event) {
         AnvilInventory aInventory = event.getInventory();
         ItemStack mainItem = aInventory.getItem(0);
         ItemStack secondaryItem = aInventory.getItem(1);
         Player player = (Player) event.getView().getPlayer();
+
+        if (!player.hasPermission("reinforcedturtlehelmets.craft")) {
+            return;
+        }
 
         if (mainItem != null && secondaryItem != null && event.getResult().getType() != Material.TURTLE_HELMET) {   // Checks if anvil has valid items
             if (mainItem.getType() == Material.TURTLE_HELMET) {   // Checks if the left slot has a turtle helmet
@@ -56,20 +60,7 @@ public class createHelmet implements Listener {
                     outputItem = CraftItemStack.asBukkitCopy(nmsItemStack);
                     event.setResult(outputItem);
                     player.updateInventory();
-
-                } /* else if (secondaryItem.getType() == Material.IRON_HELMET) {    // Checks if the right slot has a IRON helmet
-                    outputItem = createOutput(aInventory, mainItem, secondaryItem);
-
-                } else if (secondaryItem.getType() == Material.CHAINMAIL_HELMET) {    // Checks if the right slot has a CHAINMAIL helmet
-                    outputItem = createOutput(aInventory, mainItem, secondaryItem);
-
-                } else if (secondaryItem.getType() == Material.GOLDEN_HELMET) {    // Checks if the right slot has a GOLDEN helmet
-                    outputItem = createOutput(aInventory, mainItem, secondaryItem);
-
-                } else if (secondaryItem.getType() == Material.LEATHER_HELMET) {    // Checks if the right slot has a LEATHER helmet
-                    outputItem = createOutput(aInventory, mainItem, secondaryItem);
-
-                } */
+                }
             }
         }
     }

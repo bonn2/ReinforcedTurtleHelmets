@@ -10,3 +10,4 @@ enableMetrics: true
 ReloadingConfig: "§eAttempting to reload the config!"
 ReloadedConfigSuccess: "§aConfig has been sucessfully reloaded!"
 ReloadedConfigFail: "§cConfig failed to be reloaded!"
+NoPermission: "§cYou do not have permission to do that!"

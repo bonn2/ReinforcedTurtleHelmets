@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>reinforcedTurtleHelemts</groupId>
     <artifactId>ReinforcedTurtleHelmets</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
   <packaging>jar</packaging>
   <properties>
@@ -22,12 +22,6 @@
       </repository>
   </repositories>
   <dependencies>
-      <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-      </dependency>
       <dependency> <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
@@ -39,6 +33,12 @@
         <artifactId>bstats-bukkit</artifactId>
         <version>1.7</version>
         <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.codingforcookies</groupId>
+          <artifactId>ArmorEquipEvent</artifactId>
+          <version>1.7.2</version>
+          <scope>compile</scope>
       </dependency>
   </dependencies>
   <build>

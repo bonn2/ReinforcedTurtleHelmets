@@ -42,11 +42,11 @@ public class commandListener implements CommandExecutor {
         if (InvalidUsage) {sender.sendMessage(config.getString("InvalidCommand"));}
         sender.sendMessage("§2Reinforced Turtle Helmets §aby bonn2");
         sender.sendMessage("§2Version: §a" + pdf.getVersion());
-        if (sender.hasPermission("reinforcedTurtleHelemets.reload")) {sender.sendMessage("§6Usage: §e/rth <reload>");}
+        if (sender.hasPermission("reinforcedturtlehelemets.reload")) {sender.sendMessage("§6Usage: §e/rth <reload>");}
     }
 
     public void reloadOutput(CommandSender sender) {
-        if (sender.hasPermission("reinforcedTurtleHelmets.reload")) {
+        if (sender.hasPermission("reinforcedturtlehelmets.reload")) {
             FileConfiguration config = MainFile.plugin.getConfig();
 
             sender.sendMessage(config.getString("ReloadingConfig"));
