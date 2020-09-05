@@ -1,13 +1,16 @@
-package bonn2.reinforcedTurtleHelmets;
+package bonn2.reinforcedTurtleHelmets.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import bonn2.reinforcedTurtleHelmets.Main;
+import bonn2.reinforcedTurtleHelmets.util.HelmetType;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,12 +22,12 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
+public class CraftListener implements Listener {
 
-public class createHelmet implements Listener {
-
-    MainFile mainfile = MainFile.plugin;
+    Main mainfile = Main.plugin;
+    private static final NamespacedKey isArmored = new NamespacedKey(Main.plugin, "ARMORED");
 
     @EventHandler
     public void anvilCraft(PrepareAnvilEvent event) {
@@ -37,13 +40,13 @@ public class createHelmet implements Listener {
             return;
         }
 
-        if (mainItem != null && secondaryItem != null && event.getResult().getType() != Material.TURTLE_HELMET) {   // Checks if anvil has valid items
+        if (mainItem != null && secondaryItem != null) {   // Checks if anvil has valid items
             if (mainItem.getType() == Material.TURTLE_HELMET) {   // Checks if the left slot has a turtle helmet
                 ItemStack outputItem;
                 ItemMeta itemMeta;
                 AttributeModifier modifier;
                 if (secondaryItem.getType() == Material.DIAMOND_HELMET) {    // Checks if the right slot has a DIAMOND helmet
-                    outputItem = createOutput(aInventory, mainItem, secondaryItem.clone());
+                    outputItem = createOutput(mainItem, secondaryItem.clone(), HelmetType.DIAMOND);
                     itemMeta = outputItem.getItemMeta();
                     itemMeta.removeAttributeModifier(Attribute.GENERIC_ARMOR);
                     itemMeta.removeAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS);
@@ -52,12 +55,24 @@ public class createHelmet implements Listener {
                     modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
                     itemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
                     itemMeta.setDisplayName(aInventory.getRenameText());
+                    itemMeta.getPersistentDataContainer().set(isArmored, PersistentDataType.INTEGER, 1);
                     outputItem.setItemMeta(itemMeta);
-                    net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(outputItem);
-                    NBTTagCompound tag = nmsItemStack.getTag();
-                    tag.setBoolean("Reinforced", true);
-                    nmsItemStack.setTag(tag);
-                    outputItem = CraftItemStack.asBukkitCopy(nmsItemStack);
+                    event.setResult(outputItem);
+                    player.updateInventory();
+                } else if (secondaryItem.getType() == Material.NETHERITE_HELMET) {    // Checks if the right slot has a DIAMOND helmet
+                    outputItem = createOutput(mainItem, secondaryItem.clone(), HelmetType.NETHERITE);
+                    itemMeta = outputItem.getItemMeta();
+                    itemMeta.removeAttributeModifier(Attribute.GENERIC_ARMOR);
+                    itemMeta.removeAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS);
+                    modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+                    itemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+                    modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+                    itemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
+                    modifier = new AttributeModifier(UUID.randomUUID(), "generic.knockback_resistance", .1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+                    itemMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, modifier);
+                    itemMeta.setDisplayName(aInventory.getRenameText());
+                    itemMeta.getPersistentDataContainer().set(isArmored, PersistentDataType.INTEGER, 1);
+                    outputItem.setItemMeta(itemMeta);
                     event.setResult(outputItem);
                     player.updateInventory();
                 }
@@ -67,12 +82,11 @@ public class createHelmet implements Listener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2 && event.getClickedInventory().getItem(2) != null) {
-            if (event.getClickedInventory().getItem(2).getItemMeta().hasLore()) {
-                net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(event.getClickedInventory().getItem(2));
-                if (nmsItemStack.hasTag() && nmsItemStack.getTag().hasKey("Reinforced")) {
-                    if (nmsItemStack.getTag().getBoolean("Reinforced")) {
-                        ItemStack item = event.getClickedInventory().getItem(2);
+        try {
+            if (event.getClickedInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2 && event.getClickedInventory().getItem(2) != null) {
+                if (event.getClickedInventory().getItem(2).getItemMeta().hasLore()) {
+                    ItemStack item = event.getClickedInventory().getItem(2);
+                    if (item.getItemMeta().getPersistentDataContainer().getOrDefault(isArmored, PersistentDataType.INTEGER, 0) > 0) {
                         Player player = (Player) event.getWhoClicked();
                         if (event.isLeftClick()) {
                             player.setItemOnCursor(item);
@@ -84,10 +98,10 @@ public class createHelmet implements Listener {
                     }
                 }
             }
-        }
+        } catch (NullPointerException ignored) {}
     }
 
-    public ItemStack createOutput(AnvilInventory aInventory, ItemStack mainItem, ItemStack secondaryItem) {
+    public ItemStack createOutput(ItemStack mainItem, ItemStack secondaryItem, HelmetType type) {
         ItemStack outputItem = mainItem.clone();
         if ((outputItem.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) && (secondaryItem.containsEnchantment(Enchantment.PROTECTION_EXPLOSIONS) || secondaryItem.containsEnchantment(Enchantment.PROTECTION_FIRE) || secondaryItem.containsEnchantment(Enchantment.PROTECTION_PROJECTILE))) {
             secondaryItem.removeEnchantment(Enchantment.PROTECTION_EXPLOSIONS);
@@ -107,7 +121,7 @@ public class createHelmet implements Listener {
             secondaryItem.removeEnchantment(Enchantment.PROTECTION_FIRE);
         }
         outputItem.addEnchantments(secondaryItem.getEnchantments());
-        outputItem = addLore(mainfile.getConfig().getString("lore"), outputItem);
+        outputItem = addLore(colorize(mainfile.getConfig().getString("lore").replaceAll("%type%", type.name)), outputItem);
         return outputItem;
     }
 
@@ -128,16 +142,16 @@ public class createHelmet implements Listener {
                     return item;
                 }
             }
-            lore.add(message);
-            im.setLore(lore);
-            item.setItemMeta(im);
-            return item;
         } else {
             lore = new ArrayList<>();
-            lore.add(message);
-            im.setLore(lore);
-            item.setItemMeta(im);
-            return item;
         }
+        lore.add(message);
+        im.setLore(lore);
+        item.setItemMeta(im);
+        return item;
+    }
+
+    public String colorize(String msg) {
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

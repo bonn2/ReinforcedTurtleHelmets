@@ -1,4 +1,4 @@
-package bonn2.reinforcedTurtleHelmets;
+package bonn2.reinforcedTurtleHelmets.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

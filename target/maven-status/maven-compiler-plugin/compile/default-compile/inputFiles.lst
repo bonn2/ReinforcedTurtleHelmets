@@ -1,5 +1,6 @@
-C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\MainFile.java
-C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\Metrics.java
-C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\commandListener.java
-C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\createHelmet.java
-C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\ArmorEquipListener.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\listeners\ArmorEquipListener.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\Main.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\commands\MainCommand.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\util\HelmetType.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\util\Metrics.java
+C:\Users\bbonifas\IdeaProjects\ReinforcedTurtleHelmets\src\main\java\bonn2\reinforcedTurtleHelmets\listeners\CraftListener.java

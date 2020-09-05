@@ -3,11 +3,11 @@
 #           by bonn2
 #
 
-lore: "§bDiamond Reinforced"
+lore: "%type% Reinforced"
 
 enableMetrics: true
 
 ReloadingConfig: "§eAttempting to reload the config!"
-ReloadedConfigSuccess: "§aConfig has been sucessfully reloaded!"
+ReloadedConfigSuccess: "§aConfig has been successfully reloaded!"
 ReloadedConfigFail: "§cConfig failed to be reloaded!"
 NoPermission: "§cYou do not have permission to do that!"

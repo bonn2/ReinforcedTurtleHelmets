@@ -1,14 +1,15 @@
-package bonn2.reinforcedTurtleHelmets;
+package bonn2.reinforcedTurtleHelmets.commands;
 
 import java.io.File;
 
+import bonn2.reinforcedTurtleHelmets.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-public class commandListener implements CommandExecutor {
+public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -17,10 +18,10 @@ public class commandListener implements CommandExecutor {
                 helpOutput(sender, false);
                 break;
             case 1:
-                if (args[0].toString().matches("help")) {
+                if (args[0].matches("help")) {
                     helpOutput(sender, false);
                     break;
-                } else if (args[0].toString().matches("reload")) {
+                } else if (args[0].matches("reload")) {
                     reloadOutput(sender);
                     break;
                 } else {
@@ -36,8 +37,8 @@ public class commandListener implements CommandExecutor {
 
     public void helpOutput(CommandSender sender, boolean InvalidUsage) {
 
-        FileConfiguration config = MainFile.plugin.getConfig();
-        PluginDescriptionFile pdf = MainFile.plugin.getDescription();
+        FileConfiguration config = Main.plugin.getConfig();
+        PluginDescriptionFile pdf = Main.plugin.getDescription();
 
         if (InvalidUsage) {sender.sendMessage(config.getString("InvalidCommand"));}
         sender.sendMessage("§2Reinforced Turtle Helmets §aby bonn2");
@@ -47,16 +48,16 @@ public class commandListener implements CommandExecutor {
 
     public void reloadOutput(CommandSender sender) {
         if (sender.hasPermission("reinforcedturtlehelmets.reload")) {
-            FileConfiguration config = MainFile.plugin.getConfig();
+            FileConfiguration config = Main.plugin.getConfig();
 
             sender.sendMessage(config.getString("ReloadingConfig"));
             try {
-                File configyml = new File(MainFile.plugin.getDataFolder() + File.separator + "config.yml");
+                File configyml = new File(Main.plugin.getDataFolder() + File.separator + "config.yml");
                 if (!configyml.exists()) { // Checks if config file exists
-                    MainFile.plugin.getLogger().warning("No Config.yml found, making a new one!");
-                    MainFile.plugin.saveResource("config.yml", false);
+                    Main.plugin.getLogger().warning("No Config.yml found, making a new one!");
+                    Main.plugin.saveResource("config.yml", false);
                 }
-                MainFile.plugin.reloadConfig();
+                Main.plugin.reloadConfig();
                 sender.sendMessage(config.getString("ReloadedConfigSuccess"));
             } catch (Exception ignored) {
                 sender.sendMessage(config.getString("ReloadedConfigFail"));
